@@ -1,0 +1,26 @@
+# Build
+bin/
+obj/
+out/
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+
+# VS Code / Rider
+.vscode/
+.idea/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Logs
+*.log
+
+# Environment
+appsettings.*.json
