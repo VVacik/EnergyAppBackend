@@ -18,7 +18,7 @@ WORKDIR /app
 COPY --from=build /app/out .
 
 # Ustawienie portu, który będzie dostępny na zewnątrz
-EXPOSE 80
+EXPOSE 8080
 
 # Komenda uruchamiająca aplikację
 ENTRYPOINT ["dotnet", "CodiblyTask.Server.dll"]
