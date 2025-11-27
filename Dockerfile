@@ -2,11 +2,11 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
-# Kopiowanie plików projektu i przywrócenie zależności
+# Copy files and dependencies
 COPY *.csproj ./
 RUN dotnet restore
 
-# Kopiowanie całego kodu i publikacja
+# Copy code and publish
 COPY . ./
 RUN dotnet publish -c Release -o out
 
@@ -14,11 +14,11 @@ RUN dotnet publish -c Release -o out
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 
-# Kopiowanie gotowej aplikacji
+# Copy App
 COPY --from=build /app/out .
 
-# Ustawienie portu, który będzie dostępny na zewnątrz
+# External port
 EXPOSE 8080
 
-# Komenda uruchamiająca aplikację
+# Command for starting
 ENTRYPOINT ["dotnet", "CodiblyTask.Server.dll"]

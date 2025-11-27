@@ -7,6 +7,13 @@ namespace CodiblyTask.Server
         {
             var builder = WebApplication.CreateBuilder(args);
 
+
+            var allowedOrigins = new[]
+            {
+                "https://energyappfrontend.onrender.com",
+                "http://localhost:5173"
+            };
+
             // Add services to the container.
 
             builder.Services.AddControllers();
@@ -15,25 +22,25 @@ namespace CodiblyTask.Server
 
 
             builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("AllowReactApp",
-                    policy =>
+                {
+                    options.AddPolicy("AllowFrontend", policy =>
                     {
-                        policy.WithOrigins("https://localhost:64650") // adres frontendu
+                        policy
+                            .WithOrigins(allowedOrigins)
                             .AllowAnyHeader()
                             .AllowAnyMethod();
                     });
-            });
+                });
 
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            
+
 
 
             var app = builder.Build();
-            app.UseCors("AllowReactApp");
+            app.UseCors("AllowFrontend");
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
@@ -45,7 +52,10 @@ namespace CodiblyTask.Server
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            if (!app.Environment.IsProduction())
+                {
+                    app.UseHttpsRedirection();
+                }
 
             app.UseAuthorization();
 
